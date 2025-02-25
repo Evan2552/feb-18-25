@@ -16,13 +16,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
-    private final SparkFlex leftMotor;
-    private final SparkFlex rightMotor;
+    private final SparkFlex Motor;
     private final RelativeEncoder encoder;
 
     public ElevatorSubsystem() {
-        leftMotor = new SparkFlex(ElevatorConstants.kLeftMotorCanId, MotorType.kBrushless);
-        rightMotor = new SparkFlex(ElevatorConstants.kRightMotorCanId, MotorType.kBrushless);
+        Motor = new SparkFlex(IntakeConstants.kRollerCanID, MotorType.kBrushless);
+
 
         // ✅ Motor Configuration
         SparkFlexConfig globalConfig = new SparkFlexConfig();
@@ -31,17 +30,15 @@ public class ElevatorSubsystem extends SubsystemBase {
         globalConfig
                 .smartCurrentLimit(50)
                 .idleMode(IdleMode.kBrake);
-
-        rightMotorConfig
+        MotorConfig
                 .apply(globalConfig)
                 .inverted(true);
 
         // ✅ Apply configurations
-        leftMotor.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        Motor.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         // ✅ Encoder
-        encoder = leftMotor.getEncoder();
+        encoder = Motor.getEncoder();
         encoder.setPosition(0);
     }
 
