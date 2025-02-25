@@ -16,35 +16,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
-    private final SparkFlex leftMotor;
-    private final SparkFlex rightMotor;
+    private final SparkFlex Motor;
+    private final RelativeEncoder encoder;
+
+    public class ElevatorSubsystem extends SubsystemBase {
+    private final SparkFlex RollerMotor;
     private final RelativeEncoder encoder;
 
     public ElevatorSubsystem() {
-        leftMotor = new SparkFlex(ElevatorConstants.kLeftMotorCanId, MotorType.kBrushless);
-        rightMotor = new SparkFlex(ElevatorConstants.kRightMotorCanId, MotorType.kBrushless);
+        RollerMotor = new SparkFlex(IntakeConstants.kRollerCanID, MotorType.kBrushless);
+
 
         // ✅ Motor Configuration
         SparkFlexConfig globalConfig = new SparkFlexConfig();
-        SparkFlexConfig rightMotorConfig = new SparkFlexConfig();
-
         globalConfig
                 .smartCurrentLimit(50)
                 .idleMode(IdleMode.kBrake);
 
-        rightMotorConfig
+        RollerMotorConfig
                 .apply(globalConfig)
                 .inverted(true);
 
         // ✅ Apply configurations
-        leftMotor.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        RollerMotor.configure(globalConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         // ✅ Encoder
-        encoder = leftMotor.getEncoder();
+        encoder = RollerMotor.getEncoder();
         encoder.setPosition(0);
     }
 
+        
     private double inchesToRotations(double inches) {
         return (inches - ElevatorConstants.kBaseHeight) * ElevatorConstants.kGearRatio / (2 * Math.PI);
     }
@@ -55,6 +56,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         leftMotor.set(targetRotations);
         rightMotor.set(leftMotor.get());
     }
+    
+    public Command spitCoralOut(double speed)
+  {
+    return run(() -> {
+      m_rollerMotor.set(speed * IntakeConstants.defaultrRollerSpeed);
+    });
 
     public void goToLevel1() {
         setPosition(ElevatorConstants.kLevel1Height);
