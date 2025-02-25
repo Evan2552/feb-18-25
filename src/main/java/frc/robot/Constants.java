@@ -72,9 +72,7 @@ public final class Constants {
     public static final int kLeftMotorCanId = 9;
     public static final int kRightMotorCanId = 10;
 
-    // public static final double kGearRatio = 4.4 * 300;
-    // Calculated by Lok
-    public static final double kGearRatio = 0.2608;
+    public static final double kGearRatio = 4.4 * 300;
 
     public static final double kBaseHeight = 18.0;
     public static final double kLevel1Height = 31.875;
@@ -91,7 +89,9 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0;
   }
-
+  public static final class IntakeConstants {
+    public static final int kRollerCanID = 11;
+  }
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
   }
